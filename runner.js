@@ -17,13 +17,49 @@ function sudokuParse(content, puzzleNumber = 0) {
   return puzzle;
 }
 
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+}
+
+function myZapolnenie( puzzle) {
+  
+  let arr = puzzle.split('')
+  for( let i=0; i < arr.length; i++) {
+    if ( arr[i] === '-' ) {
+      let n1 = getRandomInt( 1, 10)
+      arr[i] = n1.toString()
+     
+    }
+   
+  
+  }  
+  
+  let s1 = arr.join('')
+
+  // console.log( 's1 ' , s1)
+  return s1
+}
+
+
+
 function readAndSolve(err, data) {
+  
   if (err) {
+    console.log('readAndSolve   - err' )
     throw err;
   }
-  let puzzle = sudokuParse(data);
-
+    let puzzle = sudokuParse(data);
+  
   let solvedPuzzle = sudoku.solve(puzzle);
+  //заполнить таблицу
+  solvedPuzzle = myZapolnenie( puzzle)
+
+  console.log('solvedPuzzle ', solvedPuzzle )
+
+
   if (sudoku.isSolved(solvedPuzzle)) {
     console.log("The board was solved!");
     console.log(sudoku.prettyBoard(solvedPuzzle));
@@ -33,10 +69,13 @@ function readAndSolve(err, data) {
   }
 }
 
+
 // Reads file and sends data from it to the readAndSolve function.
+// console.log( 'readFile')
 fs.readFile(
   './sudoku-puzzles.txt',
   'utf-8',
   readAndSolve
 );
+
 
