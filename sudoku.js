@@ -5,6 +5,7 @@
 // How you represent your board is up to you!
 function solve(boardString) {
   // console.log('Test')
+  
   console.log('first changes');
 }
 
